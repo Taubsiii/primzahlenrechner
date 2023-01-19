@@ -10,6 +10,19 @@ public class PrimeCalculator {
 
     private final int START_VALUE = 2;
 
+    public List<Prime> getListThroughTime(List<Prime> primes, int seconds) {
+        List<Prime> primesWithSameTime = new ArrayList<>();
+        for (Prime prime : primes) {
+            if (prime.getCalculationTime() > seconds) {
+                break;
+            }
+            if (prime.getCalculationTime() == seconds) {
+                primesWithSameTime.add(prime);
+            }
+        }
+        return primesWithSameTime;
+    }
+
     public List<Prime> getPrimesWithTime(int amount) {
         List<Prime> primes = new ArrayList<>();
         int number = START_VALUE;
