@@ -2,6 +2,7 @@ package Aufgaben.hiwin;
 
 import Aufgaben.hiwin.objects.Prime;
 import Aufgaben.hiwin.objects.PrimeCalculator;
+import Aufgaben.hiwin.services.PrimeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -18,7 +19,6 @@ public class PrimeTest {
     void PrimeValidTest() {
         List<Prime> compareList = new PrimeCalculator().getPrimesWithTime(SMALL_AMOUNT);
         int[] firstTenPrimes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
-        System.out.println("Hello");
         for (int i = 0; i < SMALL_AMOUNT; i++) {
             System.out.println("Comparing: " + compareList.get(i).getValue() + " with " + firstTenPrimes[i]);
             assert compareList.get(i).getValue() == firstTenPrimes[i];
@@ -43,5 +43,12 @@ public class PrimeTest {
         List<Prime> compareList = new PrimeCalculator().getPrimesWithTime(1000);
         System.out.println("Comparing compareList.size()");
         assert compareList.size() == 1000;
+    }
+
+    @Test
+    void fullServiceTest(){
+        PrimeService primeService = new PrimeService();
+        List<Prime> compareList = new PrimeCalculator().getPrimesWithTime(SMALL_AMOUNT);
+        primeService.getPrimesAndZip(compareList);
     }
 }

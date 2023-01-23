@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 @SpringBootTest
-public class FileServiceTest {
+class FileServiceTest {
     final int SMALL_AMOUNT = 10;
     final int BIG_AMOUNT = 1000;
 
@@ -35,7 +35,7 @@ public class FileServiceTest {
         List<Prime> primes = new PrimeCalculator().getPrimesWithTime(SMALL_AMOUNT);
         List<File> files = fileService.createFilesFromPrimes(primes);
         try {
-            fileService.createZipOutOfFiles(files);
+            fileService.createZipFromFiles(files, "zipFileCreationTest");
         } catch (Exception e) {
             System.out.println(e);
         }
