@@ -1,12 +1,12 @@
 package Aufgaben.hiwin.objects;
 import com.google.gson.Gson;
 
-public class Prime {
+public class Prime{
 
     private final int value;
     private long calculationTime;
 
-    public Prime(int value, long calculationTime) {
+    public Prime (int value, long calculationTime) {
         this.value = value;
         this.calculationTime = calculationTime;
     }

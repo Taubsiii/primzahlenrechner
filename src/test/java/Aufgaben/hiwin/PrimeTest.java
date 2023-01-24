@@ -1,18 +1,16 @@
 package Aufgaben.hiwin;
 
 import Aufgaben.hiwin.objects.Prime;
-import Aufgaben.hiwin.objects.PrimeCalculator;
+import Aufgaben.hiwin.services.PrimeCalculator;
 import Aufgaben.hiwin.services.PrimeService;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@SpringBootTest
-public class PrimeTest {
+class PrimeTest {
     final int SMALL_AMOUNT = 10;
     final int BIG_AMOUNT = 1000;
     @Test
