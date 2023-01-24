@@ -18,6 +18,7 @@ public class PrimeCalculation {
         FileService fileService = new FileService();
         PrimeService primeService = new PrimeService();
 
+
         List<Prime> primes = new PrimeCalculator().getPrimesWithTime(amount);
         String zipFileName = "";
         Connection c = dbService.connectToDB("primzahlen");
@@ -28,7 +29,7 @@ public class PrimeCalculation {
                 dbService.createTable(c);
                 DBEntity dbEntity = primeService.createDBntityThroughPrimes(primes, c);
                 dbService.writeDBEntityDBToDB(dbEntity, c);
-                zipFileName = String.valueOf(dbEntity.getCalcTime());
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -39,6 +40,7 @@ public class PrimeCalculation {
         //Zipping
         if (createZip) {
             try {
+                zipFileName = String.valueOf(primeService.getMinMaxOfBuildtime(primes));
                 List<File> fileList = fileService.fileToFilelist(fileService.createFileFromPrimes(primes));
                 fileService.createZipFromFiles(fileList, zipFileName);
             } catch (Exception e) {
