@@ -1,13 +1,11 @@
 package Aufgaben.hiwin;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import Aufgaben.hiwin.functions.PrimeCalculation;
 
-@SpringBootApplication
 public class PrimzahlenrechnerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PrimzahlenrechnerApplication.class, args);
+		new PrimeCalculation().runPrimeCalculator(100000, true,true);
 	}
 
 }
