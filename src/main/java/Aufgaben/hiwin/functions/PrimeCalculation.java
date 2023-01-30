@@ -1,7 +1,7 @@
 package Aufgaben.hiwin.functions;
 
 import Aufgaben.hiwin.objects.DBEntity;
-import Aufgaben.hiwin.objects.Prime;
+import Aufgaben.hiwin.objects.PrimeList;
 import Aufgaben.hiwin.services.DBService;
 import Aufgaben.hiwin.services.FileService;
 import Aufgaben.hiwin.services.PrimeCalculator;
@@ -19,7 +19,7 @@ public class PrimeCalculation {
         PrimeService primeService = new PrimeService();
 
 
-        List<Prime> primes = new PrimeCalculator().getPrimesWithTime(amount);
+        PrimeList primes = new PrimeCalculator().getPrimesWithTime(amount);
         String zipFileName = "";
         Connection c = dbService.connectToDB("primzahlen");
 
@@ -40,7 +40,7 @@ public class PrimeCalculation {
         //Zipping
         if (createZip) {
             try {
-                zipFileName = String.valueOf(primeService.getMinMaxOfBuildtime(primes));
+                zipFileName = String.valueOf(primes.getMaxCalcTime());
                 List<File> fileList = fileService.fileToFilelist(fileService.createFileFromPrimes(primes));
                 fileService.createZipFromFiles(fileList, zipFileName);
             } catch (Exception e) {

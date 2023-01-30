@@ -1,8 +1,8 @@
 package Aufgaben.hiwin.services;
 
-import Aufgaben.hiwin.objects.CalcTimesOfPrime;
 import Aufgaben.hiwin.objects.DBEntity;
 import Aufgaben.hiwin.objects.Prime;
+import Aufgaben.hiwin.objects.PrimeList;
 
 import java.io.File;
 import java.sql.Connection;
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrimeService {
-
     /**
      * Returns true if the value is a prime
      * @param value The value you want to evaluate
@@ -66,39 +65,30 @@ public class PrimeService {
     }
 
     /**
-     * Gets the minimum and maximum build time out of a list of primes
-     * @param primes The List you check against
-     * @return A CalcTimesOfPrime object containing the min and max value of a list of primes
-     */
-    public CalcTimesOfPrime getMinMaxOfBuildtime(List<Prime> primes) {
-        return new CalcTimesOfPrime(primes.get(0).getCalculationTime(), primes.get(primes.size() - 1).getCalculationTime());
-    }
-
-    /**
      *
      * @param
      * @return
      */
-    public void getPrimesAndZip(List<Prime> primes) {
+    public void getPrimesAndZip(PrimeList primes) {
         FileService fileService = new FileService();
-        CalcTimesOfPrime calcTimes = getMinMaxOfBuildtime(primes);
+        long maxCalcTime = primes.getMaxCalcTime();
         List<File> files = fileService.createFilesFromPrimes(primes);
-        fileService.createZipFromFiles(files, String.valueOf(calcTimes.getMax()));
+        fileService.createZipFromFiles(files, String.valueOf(maxCalcTime));
     }
 
     /**
      * Creates a DBEntity with a list of primes
      * @return A DBEntity to make DB interactions with
      */
-    public DBEntity createDBntityThroughPrimes(List<Prime> primes, Connection c) {
+    public DBEntity createDBntityThroughPrimes(PrimeList primes, Connection c) {
         DBService dbService = new DBService();
 
         return new DBEntity(
                 dbService.getLastID(c)+1,
-                getMinMaxOfBuildtime(primes).getMax()+"sec",
-                getMinMaxOfBuildtime(primes).getMax(),
-                primes.size(),
-                primes.get(primes.size() - 1).getValue());
+                primes.getMaxCalcTime()+"sec",
+                primes.getMaxCalcTime(),
+                primes.getAmountOfPrimes(),
+                primes.getHighestPrime());
     }
 }
 

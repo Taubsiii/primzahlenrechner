@@ -2,6 +2,7 @@ package Aufgaben.hiwin.services;
 
 
 import Aufgaben.hiwin.objects.Prime;
+import Aufgaben.hiwin.objects.PrimeList;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -17,7 +18,7 @@ public class PrimeCalculator {
      * @param amount The amount of Primes you want
      * @return A List of the Primes with the wanted amount
      */
-    public List<Prime> getPrimesWithTime(int amount) {
+    public PrimeList getPrimesWithTime(int amount) {
         List<Prime> primes = new ArrayList<>();
         int number = START_VALUE;
         Instant startTime = Instant.now();
@@ -33,6 +34,6 @@ public class PrimeCalculator {
             }
             number += 2;
         }
-        return primes;
+        return new PrimeList(primes);
     }
 }

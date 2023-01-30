@@ -1,6 +1,7 @@
 package Aufgaben.hiwin;
 
 import Aufgaben.hiwin.objects.Prime;
+import Aufgaben.hiwin.objects.PrimeList;
 import Aufgaben.hiwin.services.PrimeCalculator;
 import Aufgaben.hiwin.services.FileService;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ class FileServiceTest {
     @Test
     void multipleFileCreationTest() {
         FileService fileService = new FileService();
-        List<Prime> primes = new PrimeCalculator().getPrimesWithTime(SMALL_AMOUNT);
+        PrimeList primes = new PrimeCalculator().getPrimesWithTime(SMALL_AMOUNT);
         List<File> files = fileService.createFilesFromPrimes(primes);
         assert files.size() == 10;
     }
@@ -30,7 +31,7 @@ class FileServiceTest {
     @Test
     void zipFileCreationTest() {
         FileService fileService = new FileService();
-        List<Prime> primes = new PrimeCalculator().getPrimesWithTime(SMALL_AMOUNT);
+        PrimeList primes = new PrimeCalculator().getPrimesWithTime(SMALL_AMOUNT);
         List<File> files = fileService.createFilesFromPrimes(primes);
         try {
             fileService.createZipFromFiles(files, "zipFileCreationTest");
@@ -42,7 +43,7 @@ class FileServiceTest {
     @Test
     void createSingleFileTest() {
         FileService fileService = new FileService();
-        List<Prime> primes = new PrimeCalculator().getPrimesWithTime(SMALL_AMOUNT);
+        PrimeList primes = new PrimeCalculator().getPrimesWithTime(SMALL_AMOUNT);
         try {
             fileService.createFileFromPrimes(primes);
         } catch (Exception e) {

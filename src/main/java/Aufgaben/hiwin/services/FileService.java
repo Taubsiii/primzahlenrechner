@@ -1,6 +1,7 @@
 package Aufgaben.hiwin.services;
 
 import Aufgaben.hiwin.objects.Prime;
+import Aufgaben.hiwin.objects.PrimeList;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -18,10 +19,12 @@ public class FileService {
      * @param files     A list of files to add to the zip
      */
     public void createZipFromFiles(List<File> files, String nameOfZip) {
-        try {
+        try(
+                final FileOutputStream fos = new FileOutputStream("src\\main\\java\\Aufgaben\\hiwin\\files\\" +
+                nameOfZip + "sec.zip");
+                ZipOutputStream zipOut = new ZipOutputStream(fos)) {
+
             System.out.println("Zipping files into " + nameOfZip + ".zip");
-            final FileOutputStream fos = new FileOutputStream("src\\main\\java\\Aufgaben\\hiwin\\files\\" + nameOfZip + "sec.zip");
-            ZipOutputStream zipOut = new ZipOutputStream(fos);
 
             for (File file : files) {
                 FileInputStream fis = new FileInputStream(file);
@@ -38,8 +41,6 @@ public class FileService {
                 file.delete();
             }
             System.out.println("Files have been zipped");
-            zipOut.close();
-            fos.close();
 
         } catch (Exception e) {
             System.out.println(e);
@@ -65,10 +66,10 @@ public class FileService {
      * @param seconds The time in seconds you want to have the list filtered for
      * @return The filtered list with the same buildTime as the seconds variable
      */
-    public List<File> createFilesFromPrimesByTime(List<Prime> primes, long seconds) {
+    public List<File> createFilesFromPrimesByTime(PrimeList primes, long seconds) {
         List<File> fileList = new ArrayList<>();
 
-        for (Prime prime : primes) {
+        for (Prime prime : primes.getPrimesAsList()) {
             if (prime.getCalculationTime() > seconds) {
                 break;
             }
@@ -86,11 +87,11 @@ public class FileService {
      * @param primes A list of primes you want to have list of files of
      * @return The list of files made from the Primes
      */
-    public List<File> createFilesFromPrimes(List<Prime> primes) {
+    public List<File> createFilesFromPrimes(PrimeList primes) {
         System.out.println("Creating Files from Primes");
         List<File> fileList = new ArrayList<>();
 
-        for (Prime prime : primes) {
+        for (Prime prime : primes.getPrimesAsList()) {
             fileList.add(createFileFromPrime(prime));
         }
         System.out.println("Files have been created");
@@ -98,7 +99,7 @@ public class FileService {
     }
 
 
-    public File createFileFromPrimes(List<Prime> primes) {
+    public File createFileFromPrimes(PrimeList primes) {
         final String FILENAME = "primes";
         try {
             File file = new File("src\\main\\java\\Aufgaben\\hiwin\\files\\" + FILENAME + ".json");
@@ -107,13 +108,13 @@ public class FileService {
             fileWriter.write("{\n");
             fileWriter.write("\"Prime\": [\n");
 
-            for (int i = 0; i < primes.size(); i++) {
-                if (primes.size() - 1 == i) {
-                    fileWriter.write(primes.get(i).toJson() + "\n");
+            for (int i = 0; i < primes.getAmountOfPrimes(); i++) {
+                if (primes.getAmountOfPrimes() - 1 == i) {
+                    fileWriter.write(primes.getPrimesAsList().get(i).toJson() + "\n");
                     continue;
                 }
 
-                fileWriter.write(primes.get(i).toJson() + ",\n");
+                fileWriter.write(primes.getPrimesAsList().get(i).toJson() + ",\n");
             }
 
             fileWriter.write("]\n}");
