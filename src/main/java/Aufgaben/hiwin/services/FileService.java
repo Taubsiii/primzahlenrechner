@@ -19,25 +19,27 @@ public class FileService {
      * @param files     A list of files to add to the zip
      */
     public void createZipFromFiles(List<File> files, String nameOfZip) {
-        try(
+        try (
                 final FileOutputStream fos = new FileOutputStream("src\\main\\java\\Aufgaben\\hiwin\\files\\" +
-                nameOfZip + "sec.zip");
+                        nameOfZip + "sec.zip");
                 ZipOutputStream zipOut = new ZipOutputStream(fos)) {
 
             System.out.println("Zipping files into " + nameOfZip + ".zip");
 
             for (File file : files) {
-                FileInputStream fis = new FileInputStream(file);
-                ZipEntry zipEntry = new ZipEntry(file.getName());
-                zipOut.putNextEntry(zipEntry);
+                try (FileInputStream fis = new FileInputStream(file)) {
 
-                byte[] bytes = new byte[1024];
-                int length;
-                while ((length = fis.read(bytes)) >= 0) {
-                    zipOut.write(bytes, 0, length);
+                    ZipEntry zipEntry = new ZipEntry(file.getName());
+                    zipOut.putNextEntry(zipEntry);
+
+                    byte[] bytes = new byte[1024];
+                    int length;
+                    while ((length = fis.read(bytes)) >= 0) {
+                        zipOut.write(bytes, 0, length);
+                    }
+                } catch( Exception e){
+                    System.out.println("File creation failed");
                 }
-
-                fis.close();
                 file.delete();
             }
             System.out.println("Files have been zipped");
@@ -50,10 +52,11 @@ public class FileService {
 
     /**
      * Transforms a single File to a List of Files to be able to use the same functions
+     *
      * @param file
      * @return A List only containing the single file
      */
-    public List<File> fileToFilelist(File file){
+    public List<File> fileToFilelist(File file) {
         List<File> fileList = new ArrayList<>();
         fileList.add(file);
         return fileList;
@@ -62,6 +65,7 @@ public class FileService {
 
     /**
      * Filters a list of primes to the provided buildTime
+     *
      * @param primes  The list you want to have filtered
      * @param seconds The time in seconds you want to have the list filtered for
      * @return The filtered list with the same buildTime as the seconds variable

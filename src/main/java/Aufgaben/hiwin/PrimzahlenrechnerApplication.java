@@ -5,7 +5,7 @@ import Aufgaben.hiwin.functions.PrimeCalculation;
 public class PrimzahlenrechnerApplication {
 
 	public static void main(String[] args) {
-		new PrimeCalculation().runPrimeCalculator(1000000, true,true);
+		new PrimeCalculation().runPrimeCalculator(100000, true,true);
 	}
 
 }
